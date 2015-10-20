@@ -12,8 +12,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Uri chemin = Uri.parse("http://www.google.fr");
-        Intent naviguer = new Intent(Intent.ACTION_VIEW, chemin);
-        startActivity(naviguer);
+        //Uri chemin = Uri.parse("http://www.google.fr");
+        Intent i = new Intent(this, LoginActivity.class);
+        i.putExtra("contact", "theContact");
+        startActivity(i);
     }
 }
