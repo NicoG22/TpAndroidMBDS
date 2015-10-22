@@ -32,5 +32,8 @@
     <string name="edit_text_register_password_confirm">Confirmation mot de passe</string>
     <string name="radio_button_register_masculin">Masculin</string>
     <string name="radio_button_register_feminin">Féminin</string>
-    <string name="btn_register_register">S'enregistrer</string>
+    <string name="btn_register_register">S\'enregistrer</string>
+
+    <!-- Strings related to menu -->
+    <string name="txt_menu_bienvenue">Bienvenue</string>
 </resources>
