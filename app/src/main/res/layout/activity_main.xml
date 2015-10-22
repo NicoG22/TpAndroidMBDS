@@ -45,7 +45,8 @@
         android:text="@string/btn_signup"
         android:textColor="@color/white"
         android:background="@drawable/shape_radius_opaque_cyan"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:onClick="register"/>
 
     <Button
         android:id="@+id/btn_signin"
@@ -56,5 +57,6 @@
         android:text="@string/btn_signin"
         android:textColor="@color/cyan"
         android:background="@drawable/shape_radius_opaque_white"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:onClick="signin"/>
 </RelativeLayout>
