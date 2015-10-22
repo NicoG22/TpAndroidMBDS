@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TPAndroid</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_register">Sign up</string>
 
     <string name="txt_welcome">Bienvenue</string>
     <string name="txt_welcomeDetails">Veuillez sélectionner "S\'enregistrer" pour créer un compte, ou "se connecter" si vous en avez déjà un.</string>
