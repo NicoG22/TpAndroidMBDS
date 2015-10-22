@@ -21,4 +21,16 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- Strings related to register -->
+    <string name="txt_register_infos">Veuillez saisir vos informations</string>
+    <string name="edit_text_register_nom">Votre nom</string>
+    <string name="edit_text_register_prenom">Votre prénom</string>
+    <string name="edit_text_register_phone">Téléphone portable</string>
+    <string name="edit_text_register_email">E-mail</string>
+    <string name="edit_text_register_password">Mot de passe</string>
+    <string name="edit_text_register_password_confirm">Confirmation mot de passe</string>
+    <string name="radio_button_register_masculin">Masculin</string>
+    <string name="radio_button_register_feminin">Féminin</string>
+    <string name="btn_register_register">S'enregistrer</string>
 </resources>
