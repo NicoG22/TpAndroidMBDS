@@ -11,10 +11,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Uri chemin = Uri.parse("http://www.google.fr");
-        Intent i = new Intent(this, LoginActivity.class);
-        i.putExtra("contact", "theContact");
-        startActivity(i);
     }
 }
