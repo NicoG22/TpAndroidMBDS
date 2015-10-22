@@ -32,6 +32,8 @@
             android:label="@string/title_activity_login"
             android:parentActivityName=".MainActivity" >
         </activity>
+        <activity android:name=".MenuActivity" >
+        </activity>
     </application>
 
 </manifest>
