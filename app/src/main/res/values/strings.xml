@@ -3,8 +3,9 @@
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_register">Sign up</string>
 
+    <!-- Strings related to home -->
     <string name="txt_welcome">Bienvenue</string>
-    <string name="txt_welcomeDetails">Veuillez sélectionner "S\'enregistrer" pour créer un compte, ou "se connecter" si vous en avez déjà un.</string>
+    <string name="txt_welcomeDetails">Veuillez sélectionner \"S\'enregistrer\" pour créer un compte, ou \"se connecter\" si vous en avez déjà un.</string>
     <string name="btn_signup">S\'enregistrer</string>
     <string name="btn_signin">Se connecter</string>
 
