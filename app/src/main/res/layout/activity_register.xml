@@ -33,9 +33,10 @@
         android:drawableLeft="@android:drawable/ic_menu_myplaces"
         android:ems="10"
         android:inputType="textPersonName"
+        android:singleLine="true"
 
         android:padding="8dp"
-        android:text="@string/edit_text_register_nom"
+        android:hint="@string/edit_text_register_nom"
 
         android:textColor="@color/grey" />
 
@@ -49,9 +50,10 @@
         android:drawableLeft="@android:drawable/ic_menu_myplaces"
         android:ems="10"
         android:inputType="textPersonName"
+        android:singleLine="true"
 
         android:padding="8dp"
-        android:text="@string/edit_text_register_prenom"
+        android:hint="@string/edit_text_register_prenom"
 
         android:textColor="@color/grey" />
 
@@ -85,9 +87,10 @@
         android:drawableLeft="@android:drawable/sym_action_call"
         android:ems="10"
         android:inputType="phone"
+        android:singleLine="true"
 
         android:padding="8dp"
-        android:text="@string/edit_text_register_phone"
+        android:hint="@string/edit_text_register_phone"
 
         android:textColor="@color/grey" />
 
@@ -101,9 +104,10 @@
         android:drawableLeft="@android:drawable/sym_action_email"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:singleLine="true"
 
         android:padding="8dp"
-        android:text="@string/edit_text_register_email"
+        android:hint="@string/edit_text_register_email"
         android:textColor="@color/grey" />
 
     <EditText
@@ -116,9 +120,10 @@
         android:drawableLeft="@android:drawable/ic_lock_lock"
         android:ems="10"
         android:inputType="text"
+        android:singleLine="true"
 
         android:padding="8dp"
-        android:text="@string/edit_text_register_password"
+        android:hint="@string/edit_text_register_password"
         android:textColor="@color/grey" />
 
     <EditText
@@ -131,9 +136,10 @@
         android:drawableLeft="@android:drawable/ic_lock_lock"
         android:ems="10"
         android:inputType="text"
+        android:singleLine="true"
 
         android:padding="8dp"
-        android:text="@string/edit_text_register_password_confirm"
+        android:hint="@string/edit_text_register_password_confirm"
 
         android:textColor="@color/grey" />
 
