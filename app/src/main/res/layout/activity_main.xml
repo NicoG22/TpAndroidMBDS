@@ -26,7 +26,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/txt_welcome"
         android:textColor="@color/cyan"
-        android:textSize="50dp"
+        android:textSize="50sp"
         android:textStyle="bold" />
 
     <TextView
@@ -34,10 +34,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/txt_welcomeText"
+        android:gravity="center"
         android:text="@string/txt_welcomeDetails"
-        android:textAlignment="center"
         android:textColor="@color/cyan"
-        android:textSize="14dp" />
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/btn_signup"
