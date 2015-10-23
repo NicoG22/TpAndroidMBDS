@@ -21,7 +21,7 @@
 
         android:text="@string/txt_register_infos"
         android:textColor="@color/cyan"
-        android:textSize="14dp" />
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/edit_text_register_nom"
@@ -32,11 +32,11 @@
         android:background="@drawable/shape_radius_translucid_grey"
         android:drawableLeft="@android:drawable/ic_menu_myplaces"
         android:ems="10"
+        android:hint="@string/edit_text_register_nom"
         android:inputType="textPersonName"
-        android:singleLine="true"
 
         android:padding="8dp"
-        android:hint="@string/edit_text_register_nom"
+        android:singleLine="true"
 
         android:textColor="@color/grey" />
 
@@ -49,11 +49,11 @@
         android:background="@drawable/shape_radius_translucid_grey"
         android:drawableLeft="@android:drawable/ic_menu_myplaces"
         android:ems="10"
+        android:hint="@string/edit_text_register_prenom"
         android:inputType="textPersonName"
-        android:singleLine="true"
 
         android:padding="8dp"
-        android:hint="@string/edit_text_register_prenom"
+        android:singleLine="true"
 
         android:textColor="@color/grey" />
 
@@ -68,7 +68,8 @@
             android:id="@+id/radio_button_register_masculin"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/radio_button_register_masculin" />
+            android:text="@string/radio_button_register_masculin"
+            android:checked="true"/>
 
         <RadioButton
             android:id="@+id/radio_button_register_feminin"
@@ -86,11 +87,12 @@
         android:background="@drawable/shape_radius_translucid_grey"
         android:drawableLeft="@android:drawable/sym_action_call"
         android:ems="10"
+        android:hint="@string/edit_text_register_phone"
         android:inputType="phone"
-        android:singleLine="true"
+        android:maxLength="10"
 
         android:padding="8dp"
-        android:hint="@string/edit_text_register_phone"
+        android:singleLine="true"
 
         android:textColor="@color/grey" />
 
@@ -103,11 +105,11 @@
         android:background="@drawable/shape_radius_translucid_grey"
         android:drawableLeft="@android:drawable/sym_action_email"
         android:ems="10"
+        android:hint="@string/edit_text_register_email"
         android:inputType="textEmailAddress"
-        android:singleLine="true"
 
         android:padding="8dp"
-        android:hint="@string/edit_text_register_email"
+        android:singleLine="true"
         android:textColor="@color/grey" />
 
     <EditText
@@ -119,11 +121,11 @@
         android:background="@drawable/shape_radius_translucid_grey"
         android:drawableLeft="@android:drawable/ic_lock_lock"
         android:ems="10"
-        android:inputType="text"
-        android:singleLine="true"
+        android:hint="@string/edit_text_register_password"
+        android:inputType="textPassword"
 
         android:padding="8dp"
-        android:hint="@string/edit_text_register_password"
+        android:singleLine="true"
         android:textColor="@color/grey" />
 
     <EditText
@@ -135,11 +137,11 @@
         android:background="@drawable/shape_radius_translucid_grey"
         android:drawableLeft="@android:drawable/ic_lock_lock"
         android:ems="10"
-        android:inputType="text"
-        android:singleLine="true"
+        android:hint="@string/edit_text_register_password_confirm"
+        android:inputType="textPassword"
 
         android:padding="8dp"
-        android:hint="@string/edit_text_register_password_confirm"
+        android:singleLine="true"
 
         android:textColor="@color/grey" />
 
@@ -150,6 +152,7 @@
         android:layout_below="@+id/edit_text_register_password_confirm"
         android:layout_margin="4dp"
         android:background="@drawable/shape_radius_opaque_cyan"
+        android:onClick="attemptSignup"
         android:text="@string/btn_register_register"
 
         android:textColor="@color/white" />

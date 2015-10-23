@@ -14,6 +14,9 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Se connecter</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_confirm_password">Les deux mots de passe ne correspondent pas</string>
+    <string name="error_invalid_phone">Un numéro est composé de 10 chiffres</string>
+    <string name="error_invalid_empty">Veuillez remplir ce champ</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
