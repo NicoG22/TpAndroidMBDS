@@ -28,14 +28,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txt_view_register_info"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/register_magin_edit"
         android:background="@drawable/shape_radius_translucid_grey"
         android:drawableLeft="@android:drawable/ic_menu_myplaces"
         android:ems="10"
         android:hint="@string/edit_text_register_nom"
         android:inputType="textPersonName"
 
-        android:padding="8dp"
+        android:padding="@dimen/register_padding_edit"
         android:singleLine="true"
 
         android:textColor="@color/grey" />
@@ -45,14 +45,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_text_register_nom"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/register_magin_edit"
         android:background="@drawable/shape_radius_translucid_grey"
         android:drawableLeft="@android:drawable/ic_menu_myplaces"
         android:ems="10"
         android:hint="@string/edit_text_register_prenom"
         android:inputType="textPersonName"
 
-        android:padding="8dp"
+        android:padding="@dimen/register_padding_edit"
         android:singleLine="true"
 
         android:textColor="@color/grey" />
@@ -83,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/radio_grp_register"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/register_magin_edit"
         android:background="@drawable/shape_radius_translucid_grey"
         android:drawableLeft="@android:drawable/sym_action_call"
         android:ems="10"
@@ -91,7 +91,7 @@
         android:inputType="phone"
         android:maxLength="10"
 
-        android:padding="8dp"
+        android:padding="@dimen/register_padding_edit"
         android:singleLine="true"
 
         android:textColor="@color/grey" />
@@ -101,14 +101,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_text_register_phone"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/register_magin_edit"
         android:background="@drawable/shape_radius_translucid_grey"
         android:drawableLeft="@android:drawable/sym_action_email"
         android:ems="10"
         android:hint="@string/edit_text_register_email"
         android:inputType="textEmailAddress"
 
-        android:padding="8dp"
+        android:padding="@dimen/register_padding_edit"
         android:singleLine="true"
         android:textColor="@color/grey" />
 
@@ -117,14 +117,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_text_register_email"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/register_magin_edit"
         android:background="@drawable/shape_radius_translucid_grey"
         android:drawableLeft="@android:drawable/ic_lock_lock"
         android:ems="10"
         android:hint="@string/edit_text_register_password"
         android:inputType="textPassword"
 
-        android:padding="8dp"
+        android:padding="@dimen/register_padding_edit"
         android:singleLine="true"
         android:textColor="@color/grey" />
 
@@ -133,14 +133,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_text_register_password"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/register_magin_edit"
         android:background="@drawable/shape_radius_translucid_grey"
         android:drawableLeft="@android:drawable/ic_lock_lock"
         android:ems="10"
         android:hint="@string/edit_text_register_password_confirm"
         android:inputType="textPassword"
 
-        android:padding="8dp"
+        android:padding="@dimen/register_padding_edit"
         android:singleLine="true"
 
         android:textColor="@color/grey" />
@@ -150,7 +150,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_text_register_password_confirm"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/register_magin_edit"
         android:background="@drawable/shape_radius_opaque_cyan"
         android:onClick="attemptSignup"
         android:text="@string/btn_register_register"
