@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="115dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/grey_light_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="André Michel"
+        android:textColor="@color/black"
+        android:id="@+id/txt_view_buzz_username"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/txt_view_buzz_buzzer"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/txt_view_buzz_username"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:id="@+id/txt_view_delete_serveur"
+        android:gravity="right"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:text="Connecté"
+        android:id="@+id/txt_view_buzz_is_connected"
+        android:layout_below="@+id/txt_view_buzz_username"
+        android:layout_toRightOf="@+id/txt_view_buzz_buzzer"
+        android:layout_marginLeft="10dp"
+        android:drawableLeft="@drawable/ic_action_location"
+        android:textSize="15dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buzzer"
+        android:id="@+id/txt_view_buzz_buzzer"
+        android:drawableTop="@drawable/shape_btn_oval"
+        android:textAlignment="center"/>
+
+</RelativeLayout>

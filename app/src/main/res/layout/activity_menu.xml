@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.unice.mbds.tp1.tpandroid.MenuActivity">
+    tools:context="org.unice.mbds.tp1.tpandroid.activity.MenuActivity">
 
     <TextView
         android:id="@+id/txt_view_menu_bienvenue"

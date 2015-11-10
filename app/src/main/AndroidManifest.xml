@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,19 +24,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activity.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SigninActivity"
+            android:name=".activity.SigninActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MenuActivity"
+            android:name=".activity.MenuActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".BuzzActivity" >
+        <activity
+            android:name=".activity.ListeServeursActivity"
+            android:parentActivityName=".activity.MenuActivity"
+            android:label="@string/title_activity_liste_serveurs"
+            android:screenOrientation="portrait"
+            >
         </activity>
     </application>
 

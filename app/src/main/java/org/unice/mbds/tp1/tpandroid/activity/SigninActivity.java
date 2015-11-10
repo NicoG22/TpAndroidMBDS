@@ -1,4 +1,4 @@
-package org.unice.mbds.tp1.tpandroid;
+package org.unice.mbds.tp1.tpandroid.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -10,6 +10,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -20,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,6 +35,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.json.JSONObject;
+import org.unice.mbds.tp1.tpandroid.R;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,13 +57,6 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -199,9 +204,6 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
-
-            Intent i = new Intent(this, MenuActivity.class);
-            startActivity(i);
         }
     }
 
@@ -325,21 +327,41 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
 
             try {
                 // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                HttpClient client = new DefaultHttpClient();
+                HttpPost post = new HttpPost("http://92.243.14.22/person/login");
+
+                // add header
+                post.setHeader("Content-Type", "application/json");
+                JSONObject obj = new JSONObject();
+                obj.put("email", mEmail);
+                obj.put("password", mPassword);
+
+                StringEntity entity = new StringEntity(obj.toString());
+                post.setEntity(entity);
+
+                HttpResponse response = client.execute(post);
+                Log.w("Sending :", "\nSending 'POST' request to URL : http://92.243.14.22/person/login");
+                Log.w("Params :", "Post parameters : " + post.getEntity());
+                Log.w("Response :", "Response Code : " +
+                        response.getStatusLine().getStatusCode());
+
+                BufferedReader rd = new BufferedReader(
+                        new InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer result = new StringBuffer();
+                String line = "";
+                while ((line = rd.readLine()) != null) {
+                    result.append(line);
+                }
+
+                Log.w("Response :", "Response Text : " + result.toString());
+
+                JSONObject jsonObjectReturn = new JSONObject(result.toString());
+                return (boolean)jsonObjectReturn.get("success");
+            } catch (Exception e) {
+                Log.w("Erreur connexion", e.getMessage());
                 return false;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
         }
 
         @Override
@@ -348,7 +370,8 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
             showProgress(false);
 
             if (success) {
-                finish();
+                Intent i = new Intent(SigninActivity.this, ListeServeursActivity.class);
+                startActivity(i);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

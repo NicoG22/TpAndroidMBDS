@@ -1,4 +1,4 @@
-package org.unice.mbds.tp1.tpandroid;
+package org.unice.mbds.tp1.tpandroid.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -19,6 +19,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
+import org.unice.mbds.tp1.tpandroid.R;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -144,9 +145,10 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    class MyTask extends AsyncTask<String, Void, String> {
+    private class MyTask extends AsyncTask<String, Void, String> {
 
         ProgressDialog progressDialog;
+
         public void showProgressDialog(boolean isVisible) {
             if (isVisible) {
                 if(progressDialog==null) {

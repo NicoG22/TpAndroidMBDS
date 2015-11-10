@@ -1,8 +1,10 @@
-package org.unice.mbds.tp1.tpandroid;
+package org.unice.mbds.tp1.tpandroid.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import org.unice.mbds.tp1.tpandroid.R;
 
 public class MenuActivity extends AppCompatActivity {
 

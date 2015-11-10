@@ -2,6 +2,7 @@
     <string name="app_name">TPAndroid</string>
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_register">Sign up</string>
+    <string name="title_activity_liste_serveurs">Mes serveurs</string>
 
     <!-- Strings related to home -->
     <string name="txt_welcome">Bienvenue</string>
