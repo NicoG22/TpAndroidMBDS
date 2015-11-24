@@ -63,14 +63,15 @@ public class PersonItemAdapter extends BaseAdapter {
             viewHolder.date_creation = (TextView) v.findViewById(R.id.txt_view_buzz_is_connected);
             v.setTag(viewHolder);
 
-            TextView delete = (TextView) v.findViewById(R.id.txt_view_delete_serveur);
-            delete.setTag(position);
-            delete.setOnClickListener(this.listener);
-
+            viewHolder.delete = (TextView) v.findViewById(R.id.txt_view_delete_serveur);
         } else {
             viewHolder = (PersonViewHolder) v.getTag();
         }
         Person personne = person.get(position);
+
+        viewHolder.delete.setTag(position);
+        viewHolder.delete.setOnClickListener(this.listener);
+
         viewHolder.nom_prenom.setText(personne.getNom());
         viewHolder.date_creation.setText(personne.etat());
         return v;
@@ -79,18 +80,6 @@ public class PersonItemAdapter extends BaseAdapter {
     class PersonViewHolder {
         TextView nom_prenom;
         TextView date_creation;
-    }
-
-    class OnClickDelete implements View.OnClickListener {
-        private int position;
-
-        OnClickDelete(int position) {
-            this.position = position;
-        }
-
-        @Override
-        public void onClick(View v) {
-            ((ListeServeursActivity) PersonItemAdapter.this.context).deletePerson(this.position);
-        }
+        TextView delete;
     }
 }

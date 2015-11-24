@@ -2,6 +2,7 @@ package org.unice.mbds.tp1.tpandroid.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.unice.mbds.tp1.tpandroid.R;
 import org.unice.mbds.tp1.tpandroid.adapter.PersonItemAdapter;
@@ -46,7 +48,7 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.txt_view_delete_serveur){
+        if (v.getId() == R.id.txt_view_delete_serveur) {
             deletePerson((Integer) v.getTag());
         }
     }
@@ -133,15 +135,42 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
     }
 
     public void deletePerson(int position) {
+
         new DeleteTask().execute(position);
     }
 
     private class DeleteTask extends AsyncTask<Integer, Void, Void> {
 
+        ProgressDialog progressDialog;
+        String id;
+        Person retourDelete;
+
+        public void showProgressDialog(boolean isVisible) {
+            if (isVisible) {
+                if (progressDialog == null) {
+                    progressDialog = new ProgressDialog(ListeServeursActivity.this);
+                    progressDialog.setMessage("Patientez...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            progressDialog = null;
+                        }
+                    });
+                    progressDialog.show();
+                }
+            } else {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+            }
+        }
+
         @Override
         protected Void doInBackground(Integer... params) {
 
-            String id = ((Person) adapter.getItem(params[0])).getId();
+            id = ((Person) adapter.getItem(params[0])).getId();
 
             HttpClient client = new DefaultHttpClient();
             HttpDelete delete = new HttpDelete("http://92.243.14.22/person/" + id);
@@ -149,17 +178,50 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
             // add header
             delete.setHeader("Content-Type", "application/json");
             try {
-                Log.w("Sending :", "\nSending 'DELETE' request to URL : http://92.243.14.22/person/" + id);
+                Log.w("Sending :", "Sending 'DELETE' request to URL : http://92.243.14.22/person/" + id);
                 HttpResponse response = client.execute(delete);
                 Log.w("Response :", "Response Code : " +
                         response.getStatusLine().getStatusCode());
-                adapter.person.remove(params[0]);
-                adapter.notifyDataSetChanged();
+
+                BufferedReader rd = new BufferedReader(
+                        new InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer result = new StringBuffer();
+                String line = "";
+                while ((line = rd.readLine()) != null) {
+                    result.append(line);
+                }
+
+                JSONObject jsonObj = new JSONObject(result.toString());
+
+                retourDelete = new Person(jsonObj);
+
+                Log.w("Taille liste avant :", Integer.toString(adapter.person.size()));
+                adapter.person.remove((int) params[0]);
+                Log.w("Taille liste après :", Integer.toString(adapter.person.size()));
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog(true);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            showProgressDialog(false);
+            if (retourDelete != null) {
+                Toast.makeText(ListeServeursActivity.this, "Supression ok " + id, Toast.LENGTH_LONG).show();
+            }
+            adapter.notifyDataSetChanged();
         }
     }
 }
