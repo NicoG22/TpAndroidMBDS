@@ -1,14 +1,22 @@
 package org.unice.mbds.tp1.tpandroid.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.unice.mbds.tp1.tpandroid.R;
+import org.unice.mbds.tp1.tpandroid.activity.ListeServeursActivity;
 import org.unice.mbds.tp1.tpandroid.object.Person;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -18,10 +26,12 @@ public class PersonItemAdapter extends BaseAdapter {
 
     private Context context;
     public List<Person> person;
+    private View.OnClickListener listener;
 
-    public PersonItemAdapter(Context context, List<Person> person) {
+    public PersonItemAdapter(Context context, List<Person> person, View.OnClickListener listener) {
         this.context = context;
         this.person = person;
+        this.listener = listener;
     }
 
     @Override
@@ -42,18 +52,22 @@ public class PersonItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup arg2) {
+    public View getView(final int position, View convertView, ViewGroup arg2) {
         View v = convertView;
 
         PersonViewHolder viewHolder = null;
-        if(v==null){
+        if (v == null) {
             v = View.inflate(context, R.layout.list_view_serveurs_elem, null);
             viewHolder = new PersonViewHolder();
-            viewHolder.nom_prenom= (TextView)v.findViewById(R.id.txt_view_buzz_username);
-            viewHolder.date_creation= (TextView)v.findViewById(R.id.txt_view_buzz_is_connected);
+            viewHolder.nom_prenom = (TextView) v.findViewById(R.id.txt_view_buzz_username);
+            viewHolder.date_creation = (TextView) v.findViewById(R.id.txt_view_buzz_is_connected);
             v.setTag(viewHolder);
-        }
-        else{
+
+            TextView delete = (TextView) v.findViewById(R.id.txt_view_delete_serveur);
+            delete.setTag(position);
+            delete.setOnClickListener(this.listener);
+
+        } else {
             viewHolder = (PersonViewHolder) v.getTag();
         }
         Person personne = person.get(position);
@@ -62,9 +76,21 @@ public class PersonItemAdapter extends BaseAdapter {
         return v;
     }
 
-    class PersonViewHolder{
+    class PersonViewHolder {
         TextView nom_prenom;
         TextView date_creation;
     }
 
+    class OnClickDelete implements View.OnClickListener {
+        private int position;
+
+        OnClickDelete(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            ((ListeServeursActivity) PersonItemAdapter.this.context).deletePerson(this.position);
+        }
+    }
 }

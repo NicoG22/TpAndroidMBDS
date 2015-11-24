@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * Created by Nicolas on 30/10/2015.
  */
 public class Person {
+    private String id;
     private String nom;
     private String prenom;
     private String sexe;
@@ -25,6 +26,7 @@ public class Person {
         Log.w("Object json : ", object.toString());
 
         try {
+            this.id = object.getString("id");
             this.nom = object.getString("nom");
             this.prenom = object.getString("prenom");
             this.sexe = object.getString("sexe");
@@ -95,6 +97,14 @@ public class Person {
 
     public void setConnected(boolean connected) {
         this.connected = connected;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String etat() {
