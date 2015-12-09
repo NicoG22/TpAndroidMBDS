@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,16 +13,11 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
 import org.unice.mbds.tp1.tpandroid.R;
+import org.unice.mbds.tp1.tpandroid.utils.ApiCallService;
+import org.unice.mbds.tp1.tpandroid.utils.ApiUrlService;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -136,7 +131,7 @@ public class RegisterActivity extends AppCompatActivity {
                         sexe = "F";
                     }
                     String[] params = new String[]{prenom, nom, sexe, phone, email, password};
-                    new MyTask().execute(params);
+                    new RegisterTask().execute(params);
                 } catch (Exception e) {
                     Log.w("Erreur register", e.getMessage());
                 }
@@ -145,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private class MyTask extends AsyncTask<String, Void, String> {
+    private class RegisterTask extends AsyncTask<String, Void, String> {
 
         ProgressDialog progressDialog;
 
@@ -177,44 +172,22 @@ public class RegisterActivity extends AppCompatActivity {
 
             try {
 
-                HttpClient client = new DefaultHttpClient();
-                HttpPost post = new HttpPost("http://92.243.14.22/person/");
+                HashMap<String, String> postParams = new HashMap<>();
+                postParams.put("nom", params[1]);
+                postParams.put("prenom", params[0]);
+                postParams.put("sexe", params[2]);
+                postParams.put("telephone", params[3]);
+                postParams.put("email", params[4]);
+                postParams.put("createdby", params[0]);
+                postParams.put("password", params[5]);
 
-                // add header
-                post.setHeader("Content-Type", "application/json");
-                JSONObject obj = new JSONObject();
-                obj.put("nom", params[1]);
-                obj.put("prenom", params[0]);
-                obj.put("sexe", params[2]);
-                obj.put("telephone", params[3]);
-                obj.put("email", params[4]);
-                obj.put("createdby", params[0]);
-                obj.put("password", params[5]);
+                return ApiCallService.getInstance().doPost(ApiUrlService.personURL, postParams);
 
-                StringEntity entity = new StringEntity(obj.toString());
-                post.setEntity(entity);
-
-                HttpResponse response = client.execute(post);
-                Log.w("Sending :", "\nSending 'POST' request to URL : http://92.243.14.22/person/");
-                Log.w("Params :", "Post parameters : " + post.getEntity());
-                Log.w("Response :", "Response Code : " +
-                        response.getStatusLine().getStatusCode());
-
-                BufferedReader rd = new BufferedReader(
-                        new InputStreamReader(response.getEntity().getContent()));
-
-                StringBuffer result = new StringBuffer();
-                String line = "";
-                while ((line = rd.readLine()) != null) {
-                    result.append(line);
-                }
-
-                System.out.println(result.toString());
-                return result.toString();
             } catch (Exception e) {
                 Log.w("Erreur création : ", e.getMessage());
-                return "An error occured....";
             }
+
+            return null;
         }
 
         @Override

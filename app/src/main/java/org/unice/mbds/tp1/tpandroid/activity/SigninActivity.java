@@ -3,26 +3,20 @@ package org.unice.mbds.tp1.tpandroid.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -35,14 +29,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
 import org.json.JSONObject;
 import org.unice.mbds.tp1.tpandroid.R;
+import org.unice.mbds.tp1.tpandroid.utils.ApiCallService;
+import org.unice.mbds.tp1.tpandroid.utils.ApiUrlService;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -323,45 +316,19 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
             try {
-                // Simulate network access.
-                HttpClient client = new DefaultHttpClient();
-                HttpPost post = new HttpPost("http://92.243.14.22/person/login");
+                HashMap<String, String> postParams = new HashMap<>();
+                postParams.put("email", mEmail);
+                postParams.put("password", mPassword);
 
-                // add header
-                post.setHeader("Content-Type", "application/json");
-                JSONObject obj = new JSONObject();
-                obj.put("email", mEmail);
-                obj.put("password", mPassword);
-
-                StringEntity entity = new StringEntity(obj.toString());
-                post.setEntity(entity);
-
-                HttpResponse response = client.execute(post);
-                Log.w("Sending :", "\nSending 'POST' request to URL : http://92.243.14.22/person/login");
-                Log.w("Params :", "Post parameters : " + post.getEntity());
-                Log.w("Response :", "Response Code : " +
-                        response.getStatusLine().getStatusCode());
-
-                BufferedReader rd = new BufferedReader(
-                        new InputStreamReader(response.getEntity().getContent()));
-
-                StringBuffer result = new StringBuffer();
-                String line = "";
-                while ((line = rd.readLine()) != null) {
-                    result.append(line);
-                }
-
-                Log.w("Response :", "Response Text : " + result.toString());
-
-                JSONObject jsonObjectReturn = new JSONObject(result.toString());
+                JSONObject jsonObjectReturn = new JSONObject(ApiCallService.getInstance().doPost(ApiUrlService.loginURL, postParams));
                 return (boolean)jsonObjectReturn.get("success");
             } catch (Exception e) {
                 Log.w("Erreur connexion", e.getMessage());
-                return false;
             }
+
+            return false;
         }
 
         @Override
