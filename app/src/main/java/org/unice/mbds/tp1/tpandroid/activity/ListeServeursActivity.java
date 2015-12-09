@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +28,7 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
 
     ListView listeServeurs;
     PersonItemAdapter adapter;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,8 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_liste_serveurs);
 
         listeServeurs = (ListView) findViewById(R.id.list_view_serveurs);
+
+        setProgressDialog();
 
         new GetListPersonsTask().execute();
     }
@@ -43,39 +49,27 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    /****************** ASYNC TASK GET LISTE SEVEURS ******************/
+    public void setProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+
+        progressDialog.setMessage("Patientez...");
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+    }
+
+    /******************
+     * ASYNC TASK GET LISTE SEVEURS
+     ******************/
 
     private class GetListPersonsTask extends AsyncTask<String, Void, List<Person>> {
-
-        ProgressDialog progressDialog;
-
-        public void showProgressDialog(boolean isVisible) {
-            if (isVisible) {
-                if (progressDialog == null) {
-                    progressDialog = new ProgressDialog(ListeServeursActivity.this);
-                    progressDialog.setMessage("Patientez...");
-                    progressDialog.setCancelable(false);
-                    progressDialog.setIndeterminate(true);
-                    progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            progressDialog = null;
-                        }
-                    });
-                    progressDialog.show();
-                }
-            } else {
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
-            }
-        }
 
         @Override
         protected List<Person> doInBackground(String... params) {
 
             try {
-                JSONArray jsonArray = new JSONArray(ApiCallService.getInstance().doGet(ApiUrlService.personURL));
+                JSONArray jsonArray = new JSONArray(ApiCallService.getInstance().doGet(ListeServeursActivity.this,
+                        progressDialog, ApiUrlService.personURL).getResult());
                 return Person.fromJson(jsonArray);
 
             } catch (Exception e) {
@@ -87,7 +81,6 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgressDialog(true);
         }
 
         @Override
@@ -98,40 +91,18 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
 
             listeServeurs.setAdapter(adapter);
 
-            showProgressDialog(false);
             Toast.makeText(ListeServeursActivity.this, "Liste chargée", Toast.LENGTH_LONG).show();
         }
     }
 
-    /****************** ASYNC TASK DELETE SEVEUR ******************/
+    /******************
+     * ASYNC TASK DELETE SEVEUR
+     ******************/
 
     private class DeleteTask extends AsyncTask<Integer, Void, Void> {
 
-        ProgressDialog progressDialog;
         String id;
         Person retourDelete;
-
-        public void showProgressDialog(boolean isVisible) {
-            if (isVisible) {
-                if (progressDialog == null) {
-                    progressDialog = new ProgressDialog(ListeServeursActivity.this);
-                    progressDialog.setMessage("Patientez...");
-                    progressDialog.setCancelable(false);
-                    progressDialog.setIndeterminate(true);
-                    progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            progressDialog = null;
-                        }
-                    });
-                    progressDialog.show();
-                }
-            } else {
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
-            }
-        }
 
         @Override
         protected Void doInBackground(Integer... params) {
@@ -139,7 +110,7 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
             try {
                 id = ((Person) adapter.getItem(params[0])).getId();
 
-                JSONObject jsonObj = new JSONObject(ApiCallService.getInstance().doDelete(ApiUrlService.personURL + id));
+                JSONObject jsonObj = new JSONObject(ApiCallService.getInstance().doDelete(ListeServeursActivity.this, progressDialog, ApiUrlService.personURL + id).getResult());
 
                 retourDelete = new Person(jsonObj);
 
@@ -153,18 +124,18 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgressDialog(true);
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            showProgressDialog(false);
+
             if (retourDelete != null) {
                 Toast.makeText(ListeServeursActivity.this, "Supression ok " + id, Toast.LENGTH_LONG).show();
             }
             adapter.notifyDataSetChanged();
         }
     }
+
 }
 

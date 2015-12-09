@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.app.ProgressDialog;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -60,6 +61,7 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
+        mEmailView.setText("test@test.fr");
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -81,7 +83,7 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
                 return false;
             }
         });
-
+        mPasswordView.setText("123456");
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -318,12 +320,13 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
         protected Boolean doInBackground(Void... params) {
 
             try {
-                HashMap<String, String> postParams = new HashMap<>();
+                HashMap<String, Object> postParams = new HashMap<>();
                 postParams.put("email", mEmail);
                 postParams.put("password", mPassword);
 
-                JSONObject jsonObjectReturn = new JSONObject(ApiCallService.getInstance().doPost(ApiUrlService.loginURL, postParams));
-                return (boolean)jsonObjectReturn.get("success");
+                JSONObject jsonObjectReturn = new JSONObject(ApiCallService.getInstance()
+                        .doPost(SigninActivity.this, progressDialog, ApiUrlService.loginURL, postParams).getResult());
+                return (boolean) jsonObjectReturn.get("success");
             } catch (Exception e) {
                 Log.w("Erreur connexion", e.getMessage());
             }
@@ -351,5 +354,15 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
             showProgress(false);
         }
     }
+
+    public void setProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+
+        progressDialog.setMessage("Patientez...");
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+    }
+
 }
 

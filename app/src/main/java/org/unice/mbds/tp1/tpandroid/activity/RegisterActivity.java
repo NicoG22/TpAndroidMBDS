@@ -28,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText editPhone;
     EditText editPass;
     EditText editConfirmPass;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,11 +122,11 @@ public class RegisterActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            if(v.getId()==R.id.button_register) {
+            if (v.getId() == R.id.button_register) {
 
                 try {
                     String sexe = "";
-                    if(Integer.toString(groupGenre.getCheckedRadioButtonId()).equals("2131492978")) {
+                    if (Integer.toString(groupGenre.getCheckedRadioButtonId()).equals("2131492978")) {
                         sexe = "M";
                     } else {
                         sexe = "F";
@@ -140,39 +141,24 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    public void setProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+
+        progressDialog.setMessage("Patientez...");
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+    }
+
     private class RegisterTask extends AsyncTask<String, Void, String> {
 
-        ProgressDialog progressDialog;
-
-        public void showProgressDialog(boolean isVisible) {
-            if (isVisible) {
-                if(progressDialog==null) {
-                    progressDialog = new ProgressDialog(RegisterActivity.this);
-                    progressDialog.setMessage("Patientez...");
-                    progressDialog.setCancelable(false);
-                    progressDialog.setIndeterminate(true);
-                    progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            progressDialog = null;
-                        }
-                    });
-                    progressDialog.show();
-                }
-            }
-            else {
-                if(progressDialog!=null) {
-                    progressDialog.dismiss();
-                }
-            }
-        }
 
         @Override
         protected String doInBackground(String... params) {
 
             try {
 
-                HashMap<String, String> postParams = new HashMap<>();
+                HashMap<String, Object> postParams = new HashMap<>();
                 postParams.put("nom", params[1]);
                 postParams.put("prenom", params[0]);
                 postParams.put("sexe", params[2]);
@@ -181,7 +167,8 @@ public class RegisterActivity extends AppCompatActivity {
                 postParams.put("createdby", params[0]);
                 postParams.put("password", params[5]);
 
-                return ApiCallService.getInstance().doPost(ApiUrlService.personURL, postParams);
+                return ApiCallService.getInstance()
+                        .doPost(RegisterActivity.this, progressDialog, ApiUrlService.personURL, postParams).getResult();
 
             } catch (Exception e) {
                 Log.w("Erreur création : ", e.getMessage());
@@ -193,13 +180,12 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgressDialog(true);
         }
 
         @Override
         protected void onPostExecute(String theResponse) {
             super.onPostExecute(theResponse);
-            showProgressDialog(false);
+
             Toast.makeText(RegisterActivity.this, "Inscription ok", Toast.LENGTH_LONG).show();
 
             Intent intent = new Intent(RegisterActivity.this, SigninActivity.class);
