@@ -29,4 +29,29 @@
         android:text=""
         android:textColor="@color/cyan"
         android:textSize="40sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liste des serveurs"
+        android:id="@+id/btn_list_serveurs_view"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/txt_menu_nom_prenom"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_btn_opaque_color_primary"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
+        android:onClick="redirect"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liste des produits"
+        android:id="@+id/btn_list_produits_view"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/btn_list_serveurs_view"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_btn_opaque_color_primary"
+        android:layout_marginBottom="16dp"
+        android:onClick="redirect"/>
 </RelativeLayout>

@@ -27,11 +27,11 @@ public class Product {
 
         try {
             this.id = object.getString("id");
-            this.nom = object.getString("nom");
+            this.nom = object.getString("name");
             this.description = object.getString("description");
-            this.prix = Double.parseDouble(object.getString("prix"));
+            this.prix = Double.parseDouble(object.getString("price"));
             this.calories = Integer.parseInt(object.getString("calories"));
-            this.img = object.getString("img");
+            this.img = object.getString("picture");
             this.discount = Integer.parseInt(object.getString("discount"));
         } catch (JSONException e) {
             e.printStackTrace();

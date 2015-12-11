@@ -31,7 +31,7 @@ public class ListeProduitsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_liste_serveurs);
+        setContentView(R.layout.activity_liste_produits);
 
         listeProduits = (ExpandableListView) findViewById(R.id.list_view_produits);
 
@@ -60,7 +60,7 @@ public class ListeProduitsActivity extends AppCompatActivity {
 
             try {
                 JSONArray jsonArray = new JSONArray(ApiCallService.getInstance().doGet(ListeProduitsActivity.this,
-                        progressDialog, ApiUrlService.personURL).getResult());
+                        progressDialog, ApiUrlService.productURL).getResult());
                 return Product.fromJson(jsonArray);
 
             } catch (Exception e) {

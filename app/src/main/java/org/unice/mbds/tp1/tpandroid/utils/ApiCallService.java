@@ -2,30 +2,12 @@ package org.unice.mbds.tp1.tpandroid.utils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.util.Log;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-
-import javax.security.auth.callback.Callback;
 
 /**
  * Created by Nicolas on 09/12/2015.

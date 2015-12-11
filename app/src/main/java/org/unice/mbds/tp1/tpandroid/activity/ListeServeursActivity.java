@@ -99,12 +99,14 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
 
         String id;
         Person retourDelete;
+        int pos;
 
         @Override
         protected Void doInBackground(Integer... params) {
 
             try {
-                id = ((Person) adapter.getItem(params[0])).getId();
+                pos = params[0];
+                id = ((Person) adapter.getItem(pos)).getId();
 
                 JSONObject jsonObj = new JSONObject(ApiCallService.getInstance().doDelete(ListeServeursActivity.this, progressDialog, ApiUrlService.personURL + id).getResult());
 
@@ -128,6 +130,7 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
 
             if (retourDelete != null) {
                 Toast.makeText(ListeServeursActivity.this, "Supression ok " + id, Toast.LENGTH_LONG).show();
+                adapter.person.remove(pos);
             }
             adapter.notifyDataSetChanged();
         }
