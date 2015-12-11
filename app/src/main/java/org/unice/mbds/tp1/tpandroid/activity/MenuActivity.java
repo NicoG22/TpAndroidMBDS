@@ -17,7 +17,6 @@ public class MenuActivity extends AppCompatActivity {
 
         viewNomPrenom = (TextView) findViewById(R.id.txt_menu_nom_prenom);
 
-        /** TODO LOAD FROM DATABASE **/
         viewNomPrenom.setText("Jean Michel");
     }
 }

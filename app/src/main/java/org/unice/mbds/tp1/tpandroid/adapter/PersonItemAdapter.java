@@ -1,22 +1,15 @@
 package org.unice.mbds.tp1.tpandroid.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.unice.mbds.tp1.tpandroid.R;
-import org.unice.mbds.tp1.tpandroid.activity.ListeServeursActivity;
 import org.unice.mbds.tp1.tpandroid.object.Person;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -26,9 +19,9 @@ public class PersonItemAdapter extends BaseAdapter {
 
     private Context context;
     public List<Person> person;
-    private View.OnClickListener listener;
+    private OnClickListener listener;
 
-    public PersonItemAdapter(Context context, List<Person> person, View.OnClickListener listener) {
+    public PersonItemAdapter(Context context, List<Person> person, OnClickListener listener) {
         this.context = context;
         this.person = person;
         this.listener = listener;
@@ -47,7 +40,6 @@ public class PersonItemAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int arg0) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
