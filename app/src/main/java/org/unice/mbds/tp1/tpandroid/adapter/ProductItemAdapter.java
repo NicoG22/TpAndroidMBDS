@@ -1,6 +1,7 @@
 package org.unice.mbds.tp1.tpandroid.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,6 +11,7 @@ import android.widget.BaseExpandableListAdapter;
 import com.androidquery.AQuery;
 
 import org.unice.mbds.tp1.tpandroid.R;
+import org.unice.mbds.tp1.tpandroid.activity.DetailProduitActivity;
 import org.unice.mbds.tp1.tpandroid.object.Order;
 import org.unice.mbds.tp1.tpandroid.object.Product;
 
@@ -19,7 +21,7 @@ import java.util.Map;
 /**
  * Created by Gael on 10/12/2015.
  */
-public class ProductItemAdapter extends BaseExpandableListAdapter {
+public class ProductItemAdapter extends BaseExpandableListAdapter implements OnClickListener{
 
     private Context context;
     private List<String> categories; // header titles
@@ -66,16 +68,32 @@ public class ProductItemAdapter extends BaseExpandableListAdapter {
                 Order.order.add(p);
             }
         });
-        aq.id(convertView.findViewById(R.id.layout_view_product_list_item)).clicked(new OnClickListener() {
+
+        /*aq.id(convertView.findViewById(R.id.layout_view_product_list_item)).clicked(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO Ouvir la page Détail du produit !
+                Intent i = new Intent(context, DetailProduitActivity.class);
+//                i.putExtra("produit", p);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                context.startActivity(i);
             }
-        });
+        });*/
+        aq.id(convertView.findViewById(R.id.layout_view_product_list_item)).clicked(this);
 
         aq.id(convertView.findViewById(R.id.img_view_product_list)).image(p.getImg()).width(130);
 
         return convertView;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        Intent i = new Intent(context, DetailProduitActivity.class);
+//                i.putExtra("produit", p);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        context.startActivity(i);
     }
 
     @Override
@@ -126,4 +144,5 @@ public class ProductItemAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
+
 }

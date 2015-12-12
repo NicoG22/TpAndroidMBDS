@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.unice.mbds.tp1.tpandroid.R;
 import org.unice.mbds.tp1.tpandroid.adapter.ProductItemAdapter;
-import org.unice.mbds.tp1.tpandroid.object.Person;
 import org.unice.mbds.tp1.tpandroid.object.Product;
 import org.unice.mbds.tp1.tpandroid.utils.ApiCallService;
 import org.unice.mbds.tp1.tpandroid.utils.ApiUrlService;

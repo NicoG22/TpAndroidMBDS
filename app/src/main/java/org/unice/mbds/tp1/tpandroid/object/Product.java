@@ -6,12 +6,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Gael on 10/12/2015.
  */
-public class Product {
+public class Product implements Serializable{
     private String id;
     private String nom;
     private String description;
