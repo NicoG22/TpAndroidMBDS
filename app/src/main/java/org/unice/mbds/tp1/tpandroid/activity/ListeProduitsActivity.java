@@ -79,7 +79,24 @@ public class ListeProduitsActivity extends AppCompatActivity {
             super.onPostExecute(theResponse);
 
             List<String> categories = new ArrayList<>();
+            List<Product> produits;
             Map<String, List<Product>> products = new HashMap<>();
+
+            for (Product p : theResponse) {
+                String type = p.getType();
+
+                if (!categories.contains(type)) {
+                    categories.add(type);
+                }
+
+                if(!products.containsKey(type)) {
+                    products.put(type, new ArrayList<Product>());
+                }
+
+                produits = products.get(type);
+                produits.add(p);
+                products.put(type, produits);
+            }
 
             adapter = new ProductItemAdapter(getApplicationContext(), categories, products);
 

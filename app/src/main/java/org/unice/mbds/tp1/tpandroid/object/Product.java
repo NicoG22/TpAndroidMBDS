@@ -19,6 +19,7 @@ public class Product {
     private int calories;
     private String img;
     private int discount;
+    private String type;
 
     // Constructor to convert JSON object into a Java class instance
     public Product(JSONObject object) {
@@ -33,6 +34,7 @@ public class Product {
             this.calories = Integer.parseInt(object.getString("calories"));
             this.img = object.getString("picture");
             this.discount = Integer.parseInt(object.getString("discount"));
+            this.type = object.getString("type");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -106,5 +108,13 @@ public class Product {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

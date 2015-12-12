@@ -47,7 +47,7 @@
         <activity
             android:name=".activity.ListeProduitsActivity"
             android:parentActivityName=".activity.MenuActivity"
-            android:label="@string/title_activity_liste_serveurs"
+            android:label="@string/title_activity_liste_produits"
             android:screenOrientation="portrait"
             >
         </activity>

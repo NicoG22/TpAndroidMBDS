@@ -14,7 +14,7 @@
         android:src="@color/black" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -22,6 +22,7 @@
             android:id="@+id/txt_view_product_list_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="Lorem ipsum dolor sit amet, dolor et consectutir"
             android:textStyle="bold" />
 
@@ -42,17 +43,20 @@
                 android:id="@+id/txt_view_product_list_discount"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:textColor="@color/black"
                 android:layout_marginRight="5dp"
+                android:gravity="center"
                 android:text="Réduction :\n 10%" />
 
             <Button
                 android:id="@+id/btn_list_products_add"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
+                android:gravity="center"
                 android:layout_marginLeft="70dp"
                 android:background="@drawable/shape_radius_translucid"
-                android:text="Ajouter au menu"
+                android:text="@string/lbl_btn_list_product_add"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>

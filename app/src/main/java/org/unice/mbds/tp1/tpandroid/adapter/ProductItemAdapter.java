@@ -1,6 +1,8 @@
 package org.unice.mbds.tp1.tpandroid.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +15,7 @@ import org.unice.mbds.tp1.tpandroid.R;
 import org.unice.mbds.tp1.tpandroid.object.Order;
 import org.unice.mbds.tp1.tpandroid.object.Product;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,15 +62,16 @@ public class ProductItemAdapter extends BaseExpandableListAdapter {
 
         AQuery aq = new AQuery(convertView);
 
-        aq.id(R.id.txt_view_product_list_name).text(p.getNom());
-        aq.id(R.id.txt_view_product_list_discount).text(p.getDiscount());
-        aq.id(R.id.btn_list_products_add).clicked(new OnClickListener() {
+        aq.id(convertView.findViewById(R.id.txt_view_product_list_name)).text(p.getNom()).textColor(Color.BLACK);
+        aq.id(convertView.findViewById(R.id.txt_view_product_list_discount)).text("Réduction :\n" + String.valueOf(p.getDiscount()) + " %");
+        aq.id(convertView.findViewById(R.id.btn_list_products_add)).clicked(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Order.order.add(p);
+                Log.w("Commande : ", String.valueOf(Order.order.size()));
             }
         });
-        aq.id(R.id.layout_view_product_list_item).clicked(new OnClickListener() {
+        aq.id(convertView.findViewById(R.id.layout_view_product_list_item)).clicked(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO Ouvir la page Détail du produit !

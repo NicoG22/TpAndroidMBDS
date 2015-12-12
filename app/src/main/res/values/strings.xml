@@ -3,6 +3,7 @@
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_register">Sign up</string>
     <string name="title_activity_liste_serveurs">Mes serveurs</string>
+    <string name="title_activity_liste_produits">Carte du restaurant</string>
 
     <!-- Strings related to home -->
     <string name="txt_welcome">Bienvenue</string>
@@ -42,4 +43,5 @@
 
     <!-- Strings related to menu -->
     <string name="txt_menu_bienvenue">Bienvenue</string>
+    <string name="lbl_btn_list_product_add">&#032;&#032;Ajouter au menu&#032;&#032;</string>
 </resources>
