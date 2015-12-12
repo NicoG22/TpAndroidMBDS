@@ -41,7 +41,7 @@ public class Product {
     }
 
     // Factory method to convert an array of JSON objects into a list of objects
-    // User.fromJson(jsonArray);
+    // Product.fromJson(jsonArray);
     public static ArrayList<Product> fromJson(JSONArray jsonObjects) {
         ArrayList<Product> products = new ArrayList<>();
         for (int i = 0; i < jsonObjects.length(); i++) {

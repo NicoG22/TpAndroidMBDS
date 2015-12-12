@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 import org.unice.mbds.tp1.tpandroid.R;
+import org.unice.mbds.tp1.tpandroid.object.Order;
 import org.unice.mbds.tp1.tpandroid.utils.ApiCallService;
 import org.unice.mbds.tp1.tpandroid.utils.ApiUrlService;
 
@@ -339,6 +340,7 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
 
             if (success) {
                 Intent i = new Intent(SigninActivity.this, MenuActivity.class);
+                Order.order.clear();
                 startActivity(i);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
