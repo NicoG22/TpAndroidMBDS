@@ -7,9 +7,7 @@ import org.unice.mbds.tp1.tpandroid.R;
 
 public class DetailProduitActivity extends AppCompatActivity {
 
-    DetailProduitActivity() {
-
-    }
+    public DetailProduitActivity() {}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
