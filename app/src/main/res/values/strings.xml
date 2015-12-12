@@ -44,4 +44,10 @@
     <!-- Strings related to menu -->
     <string name="txt_menu_bienvenue">Bienvenue</string>
     <string name="lbl_btn_list_product_add">&#032;&#032;Ajouter au menu&#032;&#032;</string>
+
+    <!-- Strings related to delete popup -->
+    <string name="delete_serveur">Validation suppression serveur</string>
+    <string name="really_delete">Voulez vous vraiment supprimer ce serveur ?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Annuler</string>
 </resources>

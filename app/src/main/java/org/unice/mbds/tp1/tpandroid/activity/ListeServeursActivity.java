@@ -1,6 +1,8 @@
 package org.unice.mbds.tp1.tpandroid.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -39,9 +41,23 @@ public class ListeServeursActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         if (v.getId() == R.id.txt_view_delete_serveur) {
-            new DeleteTask().execute((Integer) v.getTag());
+
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle(R.string.delete_serveur)
+                    .setMessage(R.string.really_delete)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            new DeleteTask().execute((Integer) v.getTag());
+                        }
+
+                    })
+                    .setNegativeButton(R.string.no, null)
+                    .show();
         }
     }
 
