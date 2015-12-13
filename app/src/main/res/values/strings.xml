@@ -50,4 +50,6 @@
     <string name="really_delete">Voulez vous vraiment supprimer ce serveur ?</string>
     <string name="yes">Oui</string>
     <string name="no">Annuler</string>
+    <string name="btn_view_detail_produit_ajouter_panier">Ajouter au panier</string>
+    <string name="lbl_txt_view_detail_produit">Résumé</string>
 </resources>
