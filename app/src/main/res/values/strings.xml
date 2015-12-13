@@ -50,6 +50,10 @@
     <string name="really_delete">Voulez vous vraiment supprimer ce serveur ?</string>
     <string name="yes">Oui</string>
     <string name="no">Annuler</string>
-    <string name="btn_view_detail_produit_ajouter_panier">Ajouter au panier</string>
+    <string name="btn_view_detail_produit_ajouter_panier">&#032;&#032;Ajouter au menu&#032;&#032;</string>
     <string name="lbl_txt_view_detail_produit">Résumé</string>
+    <string name="txt_detail_produit_calories">Calories :\n</string>
+    <string name="txt_detail_produit_discount">Réduction :\n</string>
+    <string name="txt_detail_produit_type">Type :\n</string>
+    <string name="txt_detail_produit_prix">Réduction :\n</string>
 </resources>
