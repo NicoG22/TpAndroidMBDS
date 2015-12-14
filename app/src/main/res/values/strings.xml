@@ -56,4 +56,8 @@
     <string name="txt_detail_produit_discount">Réduction :\n</string>
     <string name="txt_detail_produit_type">Type :\n</string>
     <string name="txt_detail_produit_prix">Réduction :\n</string>
+    <string name="btn_view_liste_produits_complete">&#032;&#032;Valider la commande&#032;&#032;</string>
+    <string name="txt_menu_basket">Panier</string>
+    <string name="title_activity_liste_commande">Résumé de la commande</string>
+    <string name="btn_valider_commande">&#032;&#032;Valider la commande&#032;&#032;</string>
 </resources>

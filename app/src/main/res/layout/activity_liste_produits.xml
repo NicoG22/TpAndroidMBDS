@@ -7,8 +7,19 @@
 
     <ExpandableListView
         android:id="@+id/list_view_produits"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="2000" />
 
+    <Button
+        android:id="@+id/btn_list_products_panier_valider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/btn_valider_commande"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_btn_opaque_color_primary"
+        android:textColor="@color/white"
+        android:gravity="center" />
 
 </LinearLayout>

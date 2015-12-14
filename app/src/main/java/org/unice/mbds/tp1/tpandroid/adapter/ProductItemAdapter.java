@@ -1,5 +1,6 @@
 package org.unice.mbds.tp1.tpandroid.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import com.androidquery.AQuery;
 
 import org.unice.mbds.tp1.tpandroid.R;
 import org.unice.mbds.tp1.tpandroid.activity.DetailProduitActivity;
+import org.unice.mbds.tp1.tpandroid.activity.ListeProduitsActivity;
 import org.unice.mbds.tp1.tpandroid.object.Order;
 import org.unice.mbds.tp1.tpandroid.object.Product;
 
@@ -27,14 +29,14 @@ public class ProductItemAdapter extends BaseExpandableListAdapter {
     private List<String> categories; // header titles
     // child data in format of header title, child title
     private Map<String, List<Product>> produits;
-
-    private Product productToShow;
+    private Activity caller;
 
     public ProductItemAdapter(Context context, List<String> categories,
-                              Map<String, List<Product>> produits) {
+                              Map<String, List<Product>> produits, Activity caller) {
         this.context = context;
         this.categories = categories;
         this.produits = produits;
+        this.caller = caller;
     }
 
     @Override
@@ -64,10 +66,36 @@ public class ProductItemAdapter extends BaseExpandableListAdapter {
 
         aq.id(convertView.findViewById(R.id.txt_view_product_list_name)).text(p.getNom());
         aq.id(convertView.findViewById(R.id.txt_view_product_list_discount)).text("Réduction :\n" + String.valueOf(p.getDiscount()) + " %");
-        aq.id(convertView.findViewById(R.id.btn_list_products_add)).clicked(new OnClickListener() {
+
+        if (((ListeProduitsActivity) caller).isBasketEnabled) {
+            double finalPrice = p.getPrix() * (1 - p.getDiscount() / 100);
+
+            aq.id(convertView.findViewById(R.id.btn_list_products_add)).visibility(View.GONE);
+
+            aq.id(convertView.findViewById(R.id.txt_view_product_list_calories)).visible().text("Calories :\n" + String.valueOf(p.getCalories()));
+            aq.id(convertView.findViewById(R.id.txt_view_product_list_prix)).visible().text("Prix avec réduction :\n" + String.valueOf(finalPrice) + " €");
+
+        } else {
+            aq.id(convertView.findViewById(R.id.txt_view_product_list_calories)).visibility(View.GONE);
+            aq.id(convertView.findViewById(R.id.txt_view_product_list_prix)).visibility(View.GONE);
+
+            aq.id(convertView.findViewById(R.id.btn_list_products_add)).visible().clicked(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Order.order.add(p);
+                    caller.invalidateOptionsMenu();
+                    ((ListeProduitsActivity) caller).sum_panier.setText(String.valueOf(Order.order.size()));
+                }
+            });
+
+        }
+
+        aq.id(convertView.findViewById(R.id.btn_list_products_panier_valider)).clicked(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Order.order.add(p);
+                /*
+                * I DUNNO WHY I'M HERE
+                */
             }
         });
 
