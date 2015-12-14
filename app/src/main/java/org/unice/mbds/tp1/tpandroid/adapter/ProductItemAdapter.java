@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by Gael on 10/12/2015.
  */
-public class ProductItemAdapter extends BaseExpandableListAdapter    {
+public class ProductItemAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> categories; // header titles
@@ -86,17 +86,6 @@ public class ProductItemAdapter extends BaseExpandableListAdapter    {
 
         return convertView;
     }
-
-
-/*    @Override
-    public void onClick(View v) {
-        Intent i = new Intent(context, DetailProduitActivity.class);
-        v.getT
-        i.putExtra("produit", productToShow);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        context.startActivity(i);
-    }*/
 
     @Override
     public int getChildrenCount(int groupPosition) {
