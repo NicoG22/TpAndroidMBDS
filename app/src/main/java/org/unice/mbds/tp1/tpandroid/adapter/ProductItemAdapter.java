@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by Gael on 10/12/2015.
  */
-public class ProductItemAdapter extends BaseExpandableListAdapter implements OnClickListener {
+public class ProductItemAdapter extends BaseExpandableListAdapter    {
 
     private Context context;
     private List<String> categories; // header titles
@@ -71,8 +71,16 @@ public class ProductItemAdapter extends BaseExpandableListAdapter implements OnC
             }
         });
 
-        productToShow = p;
-        aq.id(convertView.findViewById(R.id.layout_view_product_list_item)).clicked(this);
+        aq.id(convertView.findViewById(R.id.layout_view_product_list_item)).clicked(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, DetailProduitActivity.class);
+                i.putExtra("produit", p);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                context.startActivity(i);
+            }
+        });
 
         aq.id(convertView.findViewById(R.id.img_view_product_list)).image(p.getImg()).width(130);
 
@@ -80,14 +88,15 @@ public class ProductItemAdapter extends BaseExpandableListAdapter implements OnC
     }
 
 
-    @Override
+/*    @Override
     public void onClick(View v) {
         Intent i = new Intent(context, DetailProduitActivity.class);
+        v.getT
         i.putExtra("produit", productToShow);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         context.startActivity(i);
-    }
+    }*/
 
     @Override
     public int getChildrenCount(int groupPosition) {
