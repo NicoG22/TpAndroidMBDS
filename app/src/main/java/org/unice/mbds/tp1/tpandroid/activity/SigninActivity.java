@@ -34,7 +34,6 @@ import com.androidquery.callback.AjaxStatus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.unice.mbds.tp1.tpandroid.R;
-import org.unice.mbds.tp1.tpandroid.object.Order;
 import org.unice.mbds.tp1.tpandroid.utils.ApiCallService;
 import org.unice.mbds.tp1.tpandroid.utils.ApiUrlService;
 
@@ -311,7 +310,6 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
                 if ((boolean) json.get("success")) {
 
                     Intent i = new Intent(SigninActivity.this, MenuActivity.class);
-                    Order.order.clear();
                     startActivity(i);
                 } else {
                     mPasswordView.setError(getString(R.string.error_incorrect_password));

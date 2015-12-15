@@ -66,18 +66,30 @@ public class ListeProduitsActivity extends AppCompatActivity {
             if (products == null) {
                 initActivity();
             } else {
-                adapter.setCategories(categories.get(ALL_PRODUCTS_POS));
-                adapter.setProduits(products.get(ALL_PRODUCTS_POS));
-                adapter.notifyDataSetChanged();
+                updateAdapter(categories.get(ALL_PRODUCTS_POS), products.get(ALL_PRODUCTS_POS));
             }
             this.setTitle(R.string.title_activity_liste_produits);
         }
+    }
+
+    private void updateAdapter(List<String> categories, Map<String, List<Product>> products) {
+        adapter.setCategories(categories);
+        adapter.setProduits(products);
+        adapter.notifyDataSetChanged();
     }
 
     private void initActivity() {
         ApiCallService.getInstance().doGet(ListeProduitsActivity.this, setProgressDialog(), ApiUrlService.productURL);
     }
 
+    /**
+     * Gère le callback d'AQuery (via la méthode doGet)
+     * Envoie la liste des produits à la méthode processProducts
+     *
+     * @param url
+     * @param response
+     * @param status
+     */
     public void ajaxCallback(String url, String response, AjaxStatus status) {
         if (response == null || "".equals(response)) {
             Log.w("Erreur", "Veuillez réessayer");
@@ -94,6 +106,12 @@ public class ListeProduitsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Affiche le bouton panier sur la barre de menu, et initialise le badge
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -125,6 +143,17 @@ public class ListeProduitsActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Initialise la liste de produits passée en entrée dans l'élément des listes products
+     * et categories correspondant.
+     * L'adapter est ensuite défini
+     * <p/>
+     * ALL_PRODUCTS_POS pour ajouter a la carte du restaurant
+     * ORDERED_PRODUCTS_POS pour ajouter au panier
+     *
+     * @param data Les données à afficher
+     * @param pos  La position dans les listes products et categories
+     */
     private void processProducts(List<Product> data, int pos) {
         Map<String, List<Product>> currProds;
 
@@ -171,10 +200,12 @@ public class ListeProduitsActivity extends AppCompatActivity {
             products.add(pos, currProds);
         }
 
-
-        adapter = new ProductItemAdapter(getApplicationContext(), categories.get(pos), products.get(pos), this);
-
-        listeProduits.setAdapter(adapter);
+        if (adapter == null) {
+            adapter = new ProductItemAdapter(getApplicationContext(), categories.get(pos), products.get(pos), this);
+            listeProduits.setAdapter(adapter);
+        } else {
+            updateAdapter(categories.get(pos), products.get(pos));
+        }
     }
 
     public ProgressDialog setProgressDialog() {
