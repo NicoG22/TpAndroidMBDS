@@ -11,7 +11,6 @@ import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -30,6 +29,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.androidquery.callback.AjaxStatus;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.unice.mbds.tp1.tpandroid.R;
 import org.unice.mbds.tp1.tpandroid.object.Order;
@@ -51,11 +53,6 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -157,9 +154,6 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mEmailView.setError(null);
@@ -195,11 +189,7 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            login(email, password);
         }
     }
 
@@ -301,67 +291,47 @@ public class SigninActivity extends AppCompatActivity implements LoaderCallbacks
         mEmailView.setAdapter(adapter);
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private void login(String email, String password) {
+        HashMap<String, Object> postParams = new HashMap<>();
+        postParams.put("email", email);
+        postParams.put("password", password);
 
-        private final String mEmail;
-        private final String mPassword;
+        ApiCallService.getInstance()
+                .doPost(SigninActivity.this, setProgressDialog(), ApiUrlService.loginURL, postParams);
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
+    }
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
+    public void ajaxCallback(String url, String response, AjaxStatus status) {
+        if ("".equals(response) || response == null) {
+            Log.w("Erreur connexion", "Veuillez réessayer");
+        } else {
             try {
-                HashMap<String, Object> postParams = new HashMap<>();
-                postParams.put("email", mEmail);
-                postParams.put("password", mPassword);
+                JSONObject json = new JSONObject(response);
 
-                JSONObject jsonObjectReturn = new JSONObject(ApiCallService.getInstance()
-                        .doPost(SigninActivity.this, progressDialog, ApiUrlService.loginURL, postParams).getResult());
-                return (boolean) jsonObjectReturn.get("success");
-            } catch (Exception e) {
-                Log.w("Erreur connexion", e.getMessage());
+                if ((boolean) json.get("success")) {
+
+                    Intent i = new Intent(SigninActivity.this, MenuActivity.class);
+                    Order.order.clear();
+                    startActivity(i);
+                } else {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                Intent i = new Intent(SigninActivity.this, MenuActivity.class);
-                Order.order.clear();
-                startActivity(i);
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 
-    public void setProgressDialog() {
-        progressDialog = new ProgressDialog(this);
+    public ProgressDialog setProgressDialog() {
+        ProgressDialog progressDialog = new ProgressDialog(this);
 
         progressDialog.setMessage("Patientez...");
         progressDialog.setCancelable(false);
         progressDialog.setIndeterminate(true);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+        return progressDialog;
     }
 
 }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 
 import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,30 +30,27 @@ public class ApiCallService {
         return instance;
     }
 
-    public AjaxCallback<String> doGet(Activity caller, ProgressDialog progress, String url) {
-        return execute(caller, progress, url, AQuery.METHOD_GET, null);
+    public void doGet(Activity caller, ProgressDialog progress, String url) {
+        execute(caller, progress, url, AQuery.METHOD_GET, null);
     }
 
-    public AjaxCallback<String> doDelete(Activity caller, ProgressDialog progress, String url) {
-        return execute(caller, progress, url, AQuery.METHOD_DELETE, null);
+    public void doDelete(Activity caller, ProgressDialog progress, String url) {
+        execute(caller, progress, url, AQuery.METHOD_DELETE, null);
     }
 
-    public AjaxCallback<String> doPost(Activity caller, ProgressDialog progress, String url, HashMap<String, Object> params) {
-        return execute(caller, progress, url, AQuery.METHOD_POST, params);
+    public void doPost(Activity caller, ProgressDialog progress, String url, HashMap<String, Object> params) {
+        execute(caller, progress, url, AQuery.METHOD_POST, params);
     }
 
-    private AjaxCallback<String> execute(Activity caller, ProgressDialog progress, String url, int method, Map<String, Object> params) {
+    private void execute(Activity caller, ProgressDialog progress, String url, int method, Map<String, Object> params) {
         aq = new AQuery(caller);
 
-        AjaxCallback<String> cb = new AjaxCallback<>();
-        cb.url(url).type(String.class).method(method);
+        aq.progress(progress);
 
         if (method == AQuery.METHOD_POST) {
-            cb.params(params);
+            aq.ajax(url, params, String.class, caller, "ajaxCallback");
+        } else {
+            aq.ajax(url, String.class, caller, "ajaxCallback");
         }
-
-        aq.progress(progress).sync(cb);
-
-        return cb;
     }
 }

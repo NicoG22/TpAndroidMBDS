@@ -1,7 +1,6 @@
 package org.unice.mbds.tp1.tpandroid.activity;
 
 import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.unice.mbds.tp1.tpandroid.R;
 import org.unice.mbds.tp1.tpandroid.adapter.ProductItemAdapter;
 import org.unice.mbds.tp1.tpandroid.object.Order;
@@ -33,9 +34,8 @@ public class ListeProduitsActivity extends AppCompatActivity {
 
     ExpandableListView listeProduits;
     ProductItemAdapter adapter;
-    List<String> categories;
+    List<List<String>> categories;
     List<Map<String, List<Product>>> products;
-    ProgressDialog progressDialog;
     public TextView sum_panier;
     public boolean isBasketEnabled = false;
 
@@ -63,9 +63,34 @@ public class ListeProduitsActivity extends AppCompatActivity {
             processProducts(Order.order, ORDERED_PRODUCTS_POS);
             this.setTitle(R.string.title_activity_liste_commande);
         } else {
-            setProgressDialog();
-            new GetListProductsTask().execute();
+            if (products == null) {
+                initActivity();
+            } else {
+                adapter.setCategories(categories.get(ALL_PRODUCTS_POS));
+                adapter.setProduits(products.get(ALL_PRODUCTS_POS));
+                adapter.notifyDataSetChanged();
+            }
             this.setTitle(R.string.title_activity_liste_produits);
+        }
+    }
+
+    private void initActivity() {
+        ApiCallService.getInstance().doGet(ListeProduitsActivity.this, setProgressDialog(), ApiUrlService.productURL);
+    }
+
+    public void ajaxCallback(String url, String response, AjaxStatus status) {
+        if (response == null || "".equals(response)) {
+            Log.w("Erreur", "Veuillez réessayer");
+        } else {
+
+            try {
+                processProducts(Product.fromJson(new JSONArray(response)), ALL_PRODUCTS_POS);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Toast.makeText(ListeProduitsActivity.this, "Liste chargée", Toast.LENGTH_LONG).show();
+
         }
     }
 
@@ -102,16 +127,28 @@ public class ListeProduitsActivity extends AppCompatActivity {
 
     private void processProducts(List<Product> data, int pos) {
         Map<String, List<Product>> currProds;
-/*
-        if (pos == ALL_PRODUCTS_POS || pos == ORDERED_PRODUCTS_POS) {
 
-            if (products == null) {
-                products = new ArrayList<>();
-            } else if (products.get(pos) == null) {
-                products.add(pos, new HashMap<String, List<Product>>());
-            }*/
 
-        categories = new ArrayList<>();
+        if (products == null) {
+            products = new ArrayList<>();
+        }
+
+        try {
+            products.get(pos);
+        } catch (IndexOutOfBoundsException e) {
+            products.add(pos, new HashMap<String, List<Product>>());
+        }
+
+        if (categories == null) {
+            categories = new ArrayList<>();
+        }
+
+        try {
+            categories.get(pos);
+        } catch (IndexOutOfBoundsException e) {
+            categories.add(pos, new ArrayList<String>());
+        }
+
         List<Product> productsTmp;
         currProds = new HashMap<>();
 
@@ -119,8 +156,8 @@ public class ListeProduitsActivity extends AppCompatActivity {
         for (Product p : data) {
             String type = p.getType();
 
-            if (!categories.contains(type)) {
-                categories.add(type);
+            if (!categories.get(pos).contains(type)) {
+                categories.get(pos).add(type);
             }
 
             if (!currProds.containsKey(type)) {
@@ -131,58 +168,23 @@ public class ListeProduitsActivity extends AppCompatActivity {
             productsTmp.add(p);
             currProds.put(type, productsTmp);
 
-            //products.add(pos, currProds);
+            products.add(pos, currProds);
         }
 
-        adapter = new ProductItemAdapter(getApplicationContext(), categories, currProds, this);
+
+        adapter = new ProductItemAdapter(getApplicationContext(), categories.get(pos), products.get(pos), this);
 
         listeProduits.setAdapter(adapter);
-//        }
     }
 
-    public void setProgressDialog() {
-        progressDialog = new ProgressDialog(this);
+    public ProgressDialog setProgressDialog() {
+        ProgressDialog progressDialog = new ProgressDialog(this);
 
         progressDialog.setMessage("Patientez...");
         progressDialog.setCancelable(false);
         progressDialog.setIndeterminate(true);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-    }
 
-    /******************
-     * ASYNC TASK GET LISTE SEVEURS
-     ******************/
-
-    private class GetListProductsTask extends AsyncTask<String, Void, List<Product>> {
-
-        @Override
-        protected List<Product> doInBackground(String... params) {
-
-            try {
-                JSONArray jsonArray = new JSONArray(ApiCallService.getInstance().doGet(ListeProduitsActivity.this,
-                        progressDialog, ApiUrlService.productURL).getResult());
-                return Product.fromJson(jsonArray);
-
-            } catch (Exception e) {
-                Log.w("Erreur", e.getMessage());
-                return null;
-            }
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(List<Product> theResponse) {
-            super.onPostExecute(theResponse);
-
-            processProducts(theResponse, ALL_PRODUCTS_POS);
-
-            Toast.makeText(ListeProduitsActivity.this, "Liste chargée", Toast.LENGTH_LONG).show();
-        }
+        return progressDialog;
     }
 }
-

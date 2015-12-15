@@ -1,9 +1,7 @@
 package org.unice.mbds.tp1.tpandroid.activity;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -12,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.androidquery.callback.AjaxStatus;
 
 import org.unice.mbds.tp1.tpandroid.R;
 import org.unice.mbds.tp1.tpandroid.utils.ApiCallService;
@@ -28,7 +28,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText editPhone;
     EditText editPass;
     EditText editConfirmPass;
-    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
                         sexe = "F";
                     }
                     String[] params = new String[]{prenom, nom, sexe, phone, email, password};
-                    new RegisterTask().execute(params);
+                    register(params);
                 } catch (Exception e) {
                     Log.w("Erreur register", e.getMessage());
                 }
@@ -138,55 +137,41 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    public void setProgressDialog() {
-        progressDialog = new ProgressDialog(this);
+    private void register(String[] params) {
+        HashMap<String, Object> postParams = new HashMap<>();
+        postParams.put("nom", params[1]);
+        postParams.put("prenom", params[0]);
+        postParams.put("sexe", params[2]);
+        postParams.put("telephone", params[3]);
+        postParams.put("email", params[4]);
+        postParams.put("createdby", params[0]);
+        postParams.put("password", params[5]);
 
-        progressDialog.setMessage("Patientez...");
-        progressDialog.setCancelable(false);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        ApiCallService.getInstance()
+                .doPost(RegisterActivity.this, setProgressDialog(), ApiUrlService.personURL, postParams);
     }
 
-    private class RegisterTask extends AsyncTask<String, Void, String> {
+    public void ajaxCallback(String url, String response, AjaxStatus status) {
 
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            try {
-
-                HashMap<String, Object> postParams = new HashMap<>();
-                postParams.put("nom", params[1]);
-                postParams.put("prenom", params[0]);
-                postParams.put("sexe", params[2]);
-                postParams.put("telephone", params[3]);
-                postParams.put("email", params[4]);
-                postParams.put("createdby", params[0]);
-                postParams.put("password", params[5]);
-
-                return ApiCallService.getInstance()
-                        .doPost(RegisterActivity.this, progressDialog, ApiUrlService.personURL, postParams).getResult();
-
-            } catch (Exception e) {
-                Log.w("Erreur création : ", e.getMessage());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(String theResponse) {
-            super.onPostExecute(theResponse);
-
+        if (response == null || "".equals(response)) {
+            Log.w("Erreur création : ", "");
+        } else {
             Toast.makeText(RegisterActivity.this, "Inscription ok", Toast.LENGTH_LONG).show();
 
             Intent intent = new Intent(RegisterActivity.this, SigninActivity.class);
             startActivity(intent);
         }
     }
+
+    public ProgressDialog setProgressDialog() {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+
+        progressDialog.setMessage("Patientez...");
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+        return progressDialog;
+    }
+
 }

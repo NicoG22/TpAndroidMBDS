@@ -3,7 +3,6 @@ package org.unice.mbds.tp1.tpandroid.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -39,6 +38,22 @@ public class ProductItemAdapter extends BaseExpandableListAdapter {
         this.caller = caller;
     }
 
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
+    }
+
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setProduits(Map<String, List<Product>> produits) {
+        this.produits = produits;
+    }
+
+    public Map<String, List<Product>> getProduits() {
+        return produits;
+    }
+
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
         return this.produits.get(this.categories.get(groupPosition))
@@ -57,9 +72,7 @@ public class ProductItemAdapter extends BaseExpandableListAdapter {
         final Product p = (Product) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_view_products_elem, null);
+            convertView = View.inflate(context, R.layout.list_view_products_elem, null);
         }
 
         AQuery aq = new AQuery(convertView);
@@ -141,9 +154,7 @@ public class ProductItemAdapter extends BaseExpandableListAdapter {
         String groupe = (String) getGroup(groupPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_view_products_group, null);
+            convertView = View.inflate(context, R.layout.list_view_products_group, null);
         }
 
         AQuery aq = new AQuery(convertView);
