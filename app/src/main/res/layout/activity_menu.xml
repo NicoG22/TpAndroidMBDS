@@ -32,10 +32,9 @@
 
     <Button
         android:id="@+id/btn_list_serveurs_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txt_menu_nom_prenom"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/shape_btn_opaque_color_primary"
@@ -45,13 +44,23 @@
 
     <Button
         android:id="@+id/btn_list_produits_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_list_serveurs_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/shape_btn_opaque_color_primary"
         android:onClick="redirect"
         android:text="Liste des produits"
         android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btn_log_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_btn_opaque_color_primary"
+        android:onClick="redirect"
+        android:text="Déconnexion"
+        android:textColor="@color/white"
+        android:layout_below="@+id/btn_list_produits_view"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
