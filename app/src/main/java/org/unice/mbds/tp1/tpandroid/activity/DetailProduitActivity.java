@@ -9,8 +9,8 @@ import android.view.View;
 import com.androidquery.AQuery;
 
 import org.unice.mbds.tp1.tpandroid.R;
-import org.unice.mbds.tp1.tpandroid.object.Order;
 import org.unice.mbds.tp1.tpandroid.object.Product;
+import org.unice.mbds.tp1.tpandroid.object.UserManager;
 
 public class DetailProduitActivity extends AppCompatActivity {
 
@@ -40,7 +40,7 @@ public class DetailProduitActivity extends AppCompatActivity {
         aq.id(R.id.btn_view_detail_produit_add).clicked(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Order.order.add(p);
+                UserManager.getUser().getOrder().add(p);
             }
         });
 

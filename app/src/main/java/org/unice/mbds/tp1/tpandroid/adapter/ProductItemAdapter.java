@@ -13,8 +13,8 @@ import com.androidquery.AQuery;
 import org.unice.mbds.tp1.tpandroid.R;
 import org.unice.mbds.tp1.tpandroid.activity.DetailProduitActivity;
 import org.unice.mbds.tp1.tpandroid.activity.ListeProduitsActivity;
-import org.unice.mbds.tp1.tpandroid.object.Order;
 import org.unice.mbds.tp1.tpandroid.object.Product;
+import org.unice.mbds.tp1.tpandroid.object.UserManager;
 
 import java.util.List;
 import java.util.Map;
@@ -95,9 +95,9 @@ public class ProductItemAdapter extends BaseExpandableListAdapter {
             aq.id(convertView.findViewById(R.id.btn_list_products_add)).visible().clicked(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Order.order.add(p);
+                    UserManager.getUser().getOrder().add(p);
                     caller.invalidateOptionsMenu();
-                    ((ListeProduitsActivity) caller).sum_panier.setText(String.valueOf(Order.order.size()));
+                    ((ListeProduitsActivity) caller).sum_panier.setText(String.valueOf(UserManager.getUser().getOrder().size()));
                 }
             });
 

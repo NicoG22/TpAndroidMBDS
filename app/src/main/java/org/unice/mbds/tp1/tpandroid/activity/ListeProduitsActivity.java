@@ -20,8 +20,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.unice.mbds.tp1.tpandroid.R;
 import org.unice.mbds.tp1.tpandroid.adapter.ProductItemAdapter;
-import org.unice.mbds.tp1.tpandroid.object.Order;
 import org.unice.mbds.tp1.tpandroid.object.Product;
+import org.unice.mbds.tp1.tpandroid.object.UserManager;
 import org.unice.mbds.tp1.tpandroid.utils.ApiCallService;
 import org.unice.mbds.tp1.tpandroid.utils.ApiUrlService;
 
@@ -60,7 +60,7 @@ public class ListeProduitsActivity extends AppCompatActivity {
 
     private void selectData() {
         if (isBasketEnabled) {
-            processProducts(Order.order, ORDERED_PRODUCTS_POS);
+            processProducts(UserManager.getUser().getOrder(), ORDERED_PRODUCTS_POS);
             this.setTitle(R.string.title_activity_liste_commande);
         } else {
             if (products == null) {
@@ -123,10 +123,10 @@ public class ListeProduitsActivity extends AppCompatActivity {
         RelativeLayout badgeLayout = (RelativeLayout) MenuItemCompat.getActionView(menu_badge);
         sum_panier = (TextView) badgeLayout.findViewById(R.id.txt_badge_panier);
 
-        if (Order.order.size() == 0) {
+        if (UserManager.getUser().getOrder().size() == 0) {
             sum_panier.setVisibility(View.INVISIBLE);
         } else {
-            sum_panier.setText(String.valueOf(Order.order.size()));
+            sum_panier.setText(String.valueOf(UserManager.getUser().getOrder().size()));
         }
 
         AQuery aq = new AQuery(this);

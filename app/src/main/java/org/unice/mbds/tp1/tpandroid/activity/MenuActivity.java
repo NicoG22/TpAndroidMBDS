@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.unice.mbds.tp1.tpandroid.R;
-import org.unice.mbds.tp1.tpandroid.object.Order;
 import org.unice.mbds.tp1.tpandroid.object.UserManager;
 
 public class MenuActivity extends AppCompatActivity {
@@ -39,7 +38,7 @@ public class MenuActivity extends AppCompatActivity {
 
         if(v.getId() == R.id.btn_list_produits_view) {
             i = new Intent(this, ListeProduitsActivity.class);
-            Order.order.clear();
+            UserManager.getUser().getOrder().clear();
             startActivity(i);
         }
         else if(v.getId() == R.id.btn_list_serveurs_view) {
