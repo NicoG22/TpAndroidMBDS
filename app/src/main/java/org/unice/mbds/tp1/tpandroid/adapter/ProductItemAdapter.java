@@ -103,15 +103,6 @@ public class ProductItemAdapter extends BaseExpandableListAdapter {
 
         }
 
-        aq.id(convertView.findViewById(R.id.btn_list_products_panier_valider)).clicked(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*
-                * I DUNNO WHY I'M HERE
-                */
-            }
-        });
-
         aq.id(convertView.findViewById(R.id.layout_view_product_list_item)).clicked(new OnClickListener() {
             @Override
             public void onClick(View v) {

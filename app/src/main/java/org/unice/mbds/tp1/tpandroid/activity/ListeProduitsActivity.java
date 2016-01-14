@@ -18,6 +18,7 @@ import com.androidquery.callback.AjaxStatus;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.unice.mbds.tp1.tpandroid.R;
 import org.unice.mbds.tp1.tpandroid.adapter.ProductItemAdapter;
 import org.unice.mbds.tp1.tpandroid.object.Product;
@@ -66,20 +67,70 @@ public class ListeProduitsActivity extends AppCompatActivity {
             if (products == null) {
                 initActivity();
             } else {
-                updateAdapter(categories.get(ALL_PRODUCTS_POS), products.get(ALL_PRODUCTS_POS));
+                updateAdapter(ALL_PRODUCTS_POS);
             }
             this.setTitle(R.string.title_activity_liste_produits);
         }
     }
 
-    private void updateAdapter(List<String> categories, Map<String, List<Product>> products) {
-        adapter.setCategories(categories);
-        adapter.setProduits(products);
+    private void updateAdapter(int pos) {
+        adapter.setCategories(categories.get(pos));
+        adapter.setProduits(products.get(pos));
         adapter.notifyDataSetChanged();
     }
 
     private void initActivity() {
         ApiCallService.getInstance().doGet(ListeProduitsActivity.this, setProgressDialog(), ApiUrlService.productURL);
+
+        AQuery aq = new AQuery(this);
+        aq.id(this.findViewById(R.id.btn_list_products_panier_valider)).clicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int sumValue = 0;
+                int sumReduc = 0;
+                int nbProduits = 0;
+
+                HashMap<String, Object> postParams = new HashMap();
+                HashMap<String, Object> server = new HashMap();
+                HashMap<String, Object> cooker = new HashMap();
+                ArrayList<HashMap<String, Object>> items = new ArrayList();
+
+                // Ajout des objets serveur et cuisinier
+                server.put("id", UserManager.getUser().getId());
+                cooker.put("id", 12345678);
+
+                // Pour chaque produit de la liste du panier
+                for(int i = 0; i < UserManager.getUser().getOrder().size(); i++) {
+                    nbProduits++;
+
+                    Product produit = UserManager.getUser().getOrder().get(i);
+
+                    // On ajoute son id à la liste des items de la commande
+                    HashMap<String, Object> idProduc = new HashMap();
+                    idProduc.put("id", produit.getId());
+                    items.add(idProduc);
+
+                    // On ajoute son prix et sa reduction a la somme de la commande
+                    sumReduc += produit.getDiscount();
+                    sumValue += produit.getPrix();
+                }
+
+                // Si la valeur de la commande depasse 0 (donc on a des produits)
+                if(sumValue != 0) {
+                    // On remplis l'objet JSON que l'on va envoyer au serveur
+                    postParams.put("price", sumValue);
+                    postParams.put("discount", sumReduc/nbProduits);
+                    postParams.put("server", server);
+                    postParams.put("cooker", cooker);
+                    postParams.put("items", items);
+
+                    Log.w("VALEUR COMMANDE :", postParams.toString());
+
+                    ApiCallService.getInstance().doPost(ListeProduitsActivity.this, setProgressDialog(), ApiUrlService.orderURL, postParams);
+                }
+            }
+        });
     }
 
     /**
@@ -95,14 +146,18 @@ public class ListeProduitsActivity extends AppCompatActivity {
             Log.w("Erreur", "Veuillez réessayer");
         } else {
 
-            try {
-                processProducts(Product.fromJson(new JSONArray(response)), ALL_PRODUCTS_POS);
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if(url == ApiUrlService.productURL) {
+                try {
+                    processProducts(Product.fromJson(new JSONArray(response)), ALL_PRODUCTS_POS);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(ListeProduitsActivity.this, "Liste chargée", Toast.LENGTH_LONG).show();
+
+            } else if(url == ApiUrlService.orderURL) {
+                Toast.makeText(ListeProduitsActivity.this, response, Toast.LENGTH_LONG).show();
             }
-
-            Toast.makeText(ListeProduitsActivity.this, "Liste chargée", Toast.LENGTH_LONG).show();
-
         }
     }
 
@@ -204,7 +259,7 @@ public class ListeProduitsActivity extends AppCompatActivity {
             adapter = new ProductItemAdapter(getApplicationContext(), categories.get(pos), products.get(pos), this);
             listeProduits.setAdapter(adapter);
         } else {
-            updateAdapter(categories.get(pos), products.get(pos));
+            updateAdapter(pos);
         }
     }
 
